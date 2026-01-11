@@ -264,8 +264,8 @@ cd ..
 git clone https://github.com/RTimothyEdwards/irsim
 cd irsim
 ./configure
-make
-make install
+sudo make
+sudo make install
 cd ..
 ```
 
@@ -296,7 +296,7 @@ Run:
 ```bash
 cd
 cd ~/open_source/tools/klayout
-sudo dpkg -i klayout_0.28.11-1_amd64.deb
+sudo dpkg -i (#sesuai nama file yang kalian download)
 sudo apt-get install -f
 ```
 
@@ -393,10 +393,10 @@ magic
 
 ```bash
 cd ~/design/netgen
-ln -sf $PDK_ROOT/sky130A/libs.tech/netgen/setup.tcl setup.tcl
-mv setup.tcl sky130A_setup.tcl
-ln -sf $PDK_ROOT/sky130B/libs.tech/netgen/setup.tcl setup.tcl
-mv setup.tcl sky130B_setup.tcl
+
+ln -sf $PDK_ROOT/sky130A/libs.tech/netgen/setup.tcl sky130A_setup.tcl
+ln -sf $PDK_ROOT/sky130B/libs.tech/netgen/setup.tcl sky130B_setup.tcl
+
 ```
 
 > 📷 *Netgen*  
@@ -405,18 +405,23 @@ mv setup.tcl sky130B_setup.tcl
 ## 7.6 Irsim
 
 ```bash
-cd ~/design/netgen
-ln -sf $PDK_ROOT/sky130A/libs.tech/irsim/ irsim_sky130A
-ln -sf $PDK_ROOT/sky130B/libs.tech/irsim/ irsim_sky130B
+mkdir -p ~/design/irsim
+cd ~/design/irsim
+
+ln -sf $PDK_ROOT/sky130A/libs.tech/irsim irsim_sky130A
+ln -sf $PDK_ROOT/sky130B/libs.tech/irsim irsim_sky130B
+
 ```
 > 📷 *Irsim PDK Library*  
 > ![irsim_library](Results/irsim_lib.png)
 
 ## 7.7 Klayout
 ```bash
-cd
-cd .klayout
-ln -sf $PDK_ROOT/sky130A/libs.tech/klayout/tech
+mkdir -p ~/.klayout/tech
+cd ~/.klayout/tech
+
+ln -sf $PDK_ROOT/sky130A/libs.tech/klayout sky130A
+
 ```
 
 > 📷 *Klayout*  
@@ -433,7 +438,7 @@ cd VLSI_Inverter_Design
 ```
 ## 8.1 Inverter Analog Design, LVS and Simulation
 ```bash
-cd analog
+cd Analog
 ```
 ### Open the schematic and layout inverter
  Open schematic  : 
@@ -456,7 +461,7 @@ netgen
 ```
 run in terminal netgen  :
 ```bash
-lvs {inverter_layout.spice inverter} {inverter_schematic.spice InverterX} sky130A_setup.tcl
+lvs {inverter_layout.spice inverter} {Inverter_schematic.spice InverterX} sky130A_setup.tcl
 ```
 > 📷 *LVS Inverter*  
 > ![LVS](Results/Inverter_LVS.png)
@@ -464,7 +469,7 @@ lvs {inverter_layout.spice inverter} {inverter_schematic.spice InverterX} sky130
 ### Ngspice Simulation
 run testbench :
 ```bash
-ngspice tb,spice
+ngspice tb.spice
 ```
 > 📷 *Inverter Spice Simulation*  
 > ![Spice Simulation](Results/analog_inverter_simulation.png)
@@ -473,7 +478,7 @@ ngspice tb,spice
 
 ```bash
 cd ..
-cd digital/inverter/runs/inverter_layout/results/final/
+cd Digital/inverter/runs/inverter_layout/results/final/
 ```
 ### Layout Viewer Klayout
 Open Layout:
@@ -519,11 +524,12 @@ ngspice tb_inverter_spice.spice
 Copy the project to designs folder in OpenLane:
 ```bash
 cd
-cp -r ~/VLSI_Inverter_Design/digital/inverter ~/OpenLane/designs
+cp -r ~/VLSI_Inverter_Design/Digital/inverter ~/OpenLane/designs
 ```
 enter the container OpenLane:
 ```bash
-Make mount
+cd OpenLane
+make mount
 ```
 Run design :
 ```bash
